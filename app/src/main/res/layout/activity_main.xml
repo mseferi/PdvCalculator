@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/layout_racun"
+        android:layout_width="match_parent"
+        android:layout_height="83dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etBroj"
+            android:layout_width="83dp"
+            android:layout_height="65dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/iznos"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/tvPlus"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text=" +"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="36sp" />
+
+        <EditText
+            android:id="@+id/etPdv"
+            android:layout_width="65dp"
+            android:layout_height="64dp"
+            android:layout_weight="0"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/pdv"
+            android:inputType="numberSigned"
+            android:text="@string/_25" />
+
+        <TextView
+            android:id="@+id/tvPosto"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="%"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tvJednako"
+            android:layout_width="39dp"
+            android:layout_height="65dp"
+            android:layout_weight="0"
+            android:text=" ="
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="36sp" />
+
+        <Button
+            android:id="@+id/btnIzracunaj"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:text="@string/izracunaj" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MatoPdv</string>
+    <string name="_25">25</string>
+    <string name="izracunaj">Izracunaj</string>
+    <string name="iznos">Iznos</string>
+    <string name="textview">TextView</string>
+    <string name="pdv">pdv</string>
+</resources>
