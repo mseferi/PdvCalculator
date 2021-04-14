@@ -11,35 +11,43 @@ public class CalculationEntry implements Serializable {
     private double vatAmount;
     private String dateCreated;
 
+
     public CalculationEntry(double baseNumber, double vatAmount, String dateCreated) {
         this.baseNumber = baseNumber;
         this.vatAmount = vatAmount;
         this.dateCreated = dateCreated;
     }
 
+
     public double getBaseNumber() {
         return baseNumber;
     }
+
 
     public void setBaseNumber(double baseNumber) {
         this.baseNumber = baseNumber;
     }
 
+
     public double getVatAmount() {
         return vatAmount;
     }
+
 
     public void setVatAmount(double vatAmount) {
         this.vatAmount = vatAmount;
     }
 
+
     public String getDateCreated() {
         return dateCreated;
     }
 
+
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
+
 
     public String getFormattedBaseNumber() {
         return String.format(Locale.getDefault(), "%.2f", baseNumber);
