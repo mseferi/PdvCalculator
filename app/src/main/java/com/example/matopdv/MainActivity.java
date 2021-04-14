@@ -2,6 +2,7 @@ package com.example.matopdv;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -9,13 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -47,12 +49,11 @@ public class MainActivity extends AppCompatActivity {
         Button btnIzracunaj = findViewById(R.id.btnIzracunaj);
 
 
-
-
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_DATA)) {
             data = (ArrayList<CalculationEntry>) savedInstanceState.getSerializable(KEY_DATA);
         } else {
             btnIzracunaj.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
                     if (etBroj.length() == 0) {
@@ -68,9 +69,8 @@ public class MainActivity extends AppCompatActivity {
                         double vatAmount = Double.parseDouble(etPdv.getText().toString());
                         double pdvPosto = vatAmount / 100;
                         CalculationEntry entry = new CalculationEntry(input, vatAmount, "ss");
-                        adapter.getmData().add(0,entry); //dodaje na vrh liste
+                        adapter.getmData().add(0, entry); //dodaje na vrh liste
                         adapter.notifyDataSetChanged();
-
 
 
                     }
@@ -84,11 +84,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
-
-
         }
-
-
 
 
         adapter = new MyRecyclerView(this);
@@ -108,11 +104,13 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("task list", json);
         editor.apply();
     }
+
     private void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("task list", null);
-        Type type = new TypeToken<ArrayList<CalculationEntry>>() {}.getType();
+        Type type = new TypeToken<ArrayList<CalculationEntry>>() {
+        }.getType();
         data = gson.fromJson(json, type);
         if (data == null) {
             data = new ArrayList<>();
