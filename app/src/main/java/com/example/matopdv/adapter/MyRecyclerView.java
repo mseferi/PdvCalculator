@@ -1,4 +1,4 @@
-package com.example.matopdv;
+package com.example.matopdv.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.matopdv.entity.CalculationEntry;
+import com.example.matopdv.R;
+
 import java.util.List;
 
 public class MyRecyclerView extends RecyclerView.Adapter<MyRecyclerView.ViewHolder> {
@@ -20,7 +23,7 @@ public class MyRecyclerView extends RecyclerView.Adapter<MyRecyclerView.ViewHold
 
 
     // data is passed into the constructor
-    MyRecyclerView(Context context) {
+    public MyRecyclerView(Context context) {
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -44,14 +47,14 @@ public class MyRecyclerView extends RecyclerView.Adapter<MyRecyclerView.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         CalculationEntry item = mData.get(position);
-        holder.tvBaseNumber.setText(String.format("%.2f", item.getFormattedBaseNumber()).replace('.', ','));
-        holder.tvVatAmount.setText(String.valueOf(item.getVatAmount()));
+        holder.tvBaseNumber.setText(item.getFormattedBaseNumber());
+        holder.tvVatAmount2.setText(String.valueOf(item.getVatAmount()));
         holder.tvdateCreated.setText(item.getFormattedDate());
         holder.tvdateCreated.setTextColor(Color.GRAY);
-        holder.tvUkupno1.setText(String.format("%.2f", item.getTotalAmount()).replace('.', ','));
-        holder.tvUkupno2.setText(String.format("%.3f", item.getTotalAmount()).replace('.', ','));
+        holder.tvTotalAmount.setText(item.getTotalAmount(2));
+        holder.tvTotalAmount2.setText(item.getTotalAmount(3));
 
-        holder.btnBrisi.setOnClickListener(new View.OnClickListener() {
+        holder.btnErase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CalculationEntry theRemovedItem = mData.get(position);
@@ -75,28 +78,28 @@ public class MyRecyclerView extends RecyclerView.Adapter<MyRecyclerView.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvBaseNumber;
         TextView tvPlus2;
-        TextView tvVatAmount;
-        TextView tvJednako2;
-        TextView tvUkupno1;
-        TextView tvZagrada1;
-        TextView tvUkupno2;
-        TextView tvZagrada2;
+        TextView tvVatAmount2;
+        TextView tvEquals2;
+        TextView tvTotalAmount;
+        TextView tvBrackets1;
+        TextView tvTotalAmount2;
+        TextView tvBrackets2;
         TextView tvdateCreated;
-        Button btnBrisi;
+        Button btnErase;
 
 
         ViewHolder(View itemView) {
             super(itemView);
             tvBaseNumber = itemView.findViewById(R.id.tvBaseNumber);
             tvPlus2 = itemView.findViewById(R.id.tvPlus2);
-            tvVatAmount = itemView.findViewById(R.id.tvVatAmount);
-            tvJednako2 = itemView.findViewById(R.id.tvJednako2);
-            tvUkupno1 = itemView.findViewById(R.id.tvUkupno1);
-            tvUkupno2 = itemView.findViewById(R.id.tvUkupno2);
-            tvZagrada1 = itemView.findViewById(R.id.tvZagrada1);
-            tvZagrada2 = itemView.findViewById(R.id.tvZagrada2);
+            tvVatAmount2 = itemView.findViewById(R.id.tvVatAmount2);
+            tvEquals2 = itemView.findViewById(R.id.tvEquals2);
+            tvTotalAmount = itemView.findViewById(R.id.tvTotalAmount);
+            tvTotalAmount2 = itemView.findViewById(R.id.tvTotalAmount2);
+            tvBrackets1 = itemView.findViewById(R.id.tvBrackets1);
+            tvBrackets2 = itemView.findViewById(R.id.tvBrackets2);
             tvdateCreated = itemView.findViewById(R.id.tvDateCreated);
-            btnBrisi = itemView.findViewById(R.id.btnBrisi);
+            btnErase = itemView.findViewById(R.id.btnErase);
             itemView.setOnClickListener(this);
         }
 

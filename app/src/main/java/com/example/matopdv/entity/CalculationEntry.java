@@ -1,4 +1,4 @@
-package com.example.matopdv;
+package com.example.matopdv.entity;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -41,28 +41,20 @@ public class CalculationEntry implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    Double getFormattedBaseNumber() {
-        Double frmBaseNmb = baseNumber;
-        String.format("%.2f", frmBaseNmb);
-
-        return frmBaseNmb;
+    public String getFormattedBaseNumber() {
+        return String.format(Locale.getDefault(), "%.2f", baseNumber);
     }
 
-    Double getTotalAmount() {
-        double amount = baseNumber + (baseNumber * (vatAmount / 100));
-        String.format("%.2f", amount);
 
-        return amount;
+    public String getTotalAmount(int numberOfDecimalPlaces) {
+        return String.format(Locale.getDefault(), "%." + numberOfDecimalPlaces + "f", (baseNumber + (baseNumber * (vatAmount / 100))));
     }
 
-    String getFormattedDate() {
+
+    public String getFormattedDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss   dd.MM.yyyy.", Locale.getDefault());
-        String dateTime = sdf.format(new Date());
-
-        return dateTime;
-
-
+        return sdf.format(new Date());
     }
 
-    
+
 }

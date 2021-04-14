@@ -33,14 +33,14 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/tvVatAmount"
+                android:id="@+id/tvVatAmount2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:text="TextView" />
 
             <TextView
-                android:id="@+id/tvPosto2"
+                android:id="@+id/tvPercent2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
@@ -48,7 +48,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tvJednako2"
+                android:id="@+id/tvEquals2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
@@ -56,14 +56,14 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/tvUkupno1"
+                android:id="@+id/tvTotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 tools:text="Ukupno" />
 
             <TextView
-                android:id="@+id/tvZagrada1"
+                android:id="@+id/tvBrackets1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
@@ -71,14 +71,14 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/tvUkupno2"
+                android:id="@+id/tvTotalAmount2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 tools:text="Tri dec" />
 
             <TextView
-                android:id="@+id/tvZagrada2"
+                android:id="@+id/tvBrackets2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
@@ -86,7 +86,7 @@
                 android:textSize="24sp" />
 
             <Button
-                android:id="@+id/btnBrisi"
+                android:id="@+id/btnErase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"

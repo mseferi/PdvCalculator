@@ -2,24 +2,22 @@ package com.example.matopdv;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.matopdv.adapter.MyRecyclerView;
+import com.example.matopdv.entity.CalculationEntry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -29,9 +27,11 @@ public class MainActivity extends AppCompatActivity {
     MyRecyclerView adapter;
 
     private EditText etbaseNumber, etvatAmount;
-    private TextView tvPlus, tvPosto, tvJednako;
-    private Button btnIzracunaj;
+    private TextView tvPlus, tvVatAmount, tvEquals;
+    private Button btnCalculate;
     ArrayList<CalculationEntry> data = new ArrayList<>();
+
+    CalculationEntry lastEntry = null;
 
 
     @Override
@@ -41,50 +41,47 @@ public class MainActivity extends AppCompatActivity {
 
         loadData();
 
-        EditText etBroj = findViewById(R.id.etbaseNumber);
-        EditText etPdv = findViewById(R.id.etvatAmount);
-        TextView tvPlus = findViewById(R.id.tvPlus);
-        TextView tvPosto = findViewById(R.id.tvPosto);
-        TextView tvJednako = findViewById(R.id.tvJednako);
-        Button btnIzracunaj = findViewById(R.id.btnIzracunaj);
+        EditText etBaseNumber = findViewById(R.id.etbaseNumber);
+        EditText etVat = findViewById(R.id.etVatAmount);
+        Button btnCalculate = findViewById(R.id.btnCalculate);
 
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_DATA)) {
-            data = (ArrayList<CalculationEntry>) savedInstanceState.getSerializable(KEY_DATA);
-        } else {
-            btnIzracunaj.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
-                @Override
-                public void onClick(View v) {
-                    if (etBroj.length() == 0) {
-                        etBroj.requestFocus();
-                        etBroj.setError(" Molimo unesite vrijednost");
-                    } else if ((etPdv.length() == 0)) {
-                        etPdv.requestFocus();
-                        etPdv.setError("Unesite iznos PDV-a");
+        btnCalculate.setOnClickListener(v -> {
+            //chech if etBaseNumber is empty
+            if (etBaseNumber.length() == 0) {
+                etBaseNumber.requestFocus();
+                etBaseNumber.setError(" Molimo unesite vrijednost");
+                return;
+
+                //check if etVat is empty
+            }
+            if ((etVat.length() == 0)) {
+                etVat.requestFocus();
+                etVat.setError("Unesite iznos PDV-a");
+                return;
+            }
 
 
-                    } else {
-                        double input = Double.parseDouble((etBroj.getText().toString()));
-                        double vatAmount = Double.parseDouble(etPdv.getText().toString());
-                        double pdvPosto = vatAmount / 100;
-                        CalculationEntry entry = new CalculationEntry(input, vatAmount, "ss");
-                        adapter.getmData().add(0, entry); //dodaje na vrh liste
-                        adapter.notifyDataSetChanged();
+            double input = Double.parseDouble((etBaseNumber.getText().toString()));
+            double vatAmount = Double.parseDouble(etVat.getText().toString());
+            CalculationEntry entry = new CalculationEntry(input, vatAmount, "ss");
+
+            if (lastEntry != null && lastEntry.getBaseNumber() == entry.getBaseNumber() && lastEntry.getVatAmount() == entry.getVatAmount()) {
+                etBaseNumber.requestFocus();
+                etBaseNumber.setError("Unesite drugu vrijednost");
+                return;
+            }
 
 
-                    }
+            adapter.getmData().add(0, entry); //add it to top of list
+            adapter.notifyDataSetChanged();
+            lastEntry = entry;
 
+            //Hides keyboard on button click
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(btnCalculate.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
 
-                    //Hides keyboard on button click
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(btnIzracunaj.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-
-                }
-            });
-
-
-        }
+        });
 
 
         adapter = new MyRecyclerView(this);
@@ -92,9 +89,14 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rvData = findViewById(R.id.rV);
         rvData.setAdapter(adapter);
         rvData.setLayoutManager(new LinearLayoutManager(this));
-
-
     }
+
+
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(btnCalculate.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
+
 
     private void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("task list", json);
         editor.apply();
     }
+
 
     private void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
@@ -117,16 +120,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_DATA, (Serializable) adapter.getmData());
+        saveData();
+        outState.putSerializable(KEY_DATA, lastEntry);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        saveData();
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        lastEntry = (CalculationEntry) savedInstanceState.getSerializable(KEY_DATA);
     }
 }

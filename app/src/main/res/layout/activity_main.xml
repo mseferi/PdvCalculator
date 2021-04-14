@@ -32,7 +32,7 @@
             android:textSize="36sp" />
 
         <EditText
-            android:id="@+id/etvatAmount"
+            android:id="@+id/etVatAmount"
             android:layout_width="65dp"
             android:layout_height="64dp"
             android:layout_weight="0"
@@ -43,7 +43,7 @@
             android:text="@string/_25" />
 
         <TextView
-            android:id="@+id/tvPosto"
+            android:id="@+id/tvPercent"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -51,7 +51,7 @@
             android:textSize="30sp" />
 
         <TextView
-            android:id="@+id/tvJednako"
+            android:id="@+id/tvEquals"
             android:layout_width="39dp"
             android:layout_height="65dp"
             android:layout_weight="0"
@@ -60,7 +60,7 @@
             android:textSize="36sp" />
 
         <Button
-            android:id="@+id/btnIzracunaj"
+            android:id="@+id/btnCalculate"
             android:layout_width="wrap_content"
             android:layout_height="55dp"
             android:layout_weight="1"
