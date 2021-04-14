@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,17 +20,13 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import static com.example.matopdv.utils.Keys.KEY_DATA;
+
 public class MainActivity extends AppCompatActivity {
 
-    public static final String KEY_DATA = "KEY_DATA";
-    MyRecyclerView adapter;
-
-    private EditText etbaseNumber, etvatAmount;
-    private TextView tvPlus, tvVatAmount, tvEquals;
-    private Button btnCalculate;
-    ArrayList<CalculationEntry> data = new ArrayList<>();
-
-    CalculationEntry lastEntry = null;
+    private MyRecyclerView adapter;
+    private ArrayList<CalculationEntry> data = new ArrayList<>();
+    private CalculationEntry lastEntry = null;
 
 
     @Override
@@ -47,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnCalculate.setOnClickListener(v -> {
-            //chech if etBaseNumber is empty
+            //check if etBaseNumber is empty
             if (etBaseNumber.length() == 0) {
                 etBaseNumber.requestFocus();
                 etBaseNumber.setError(" Molimo unesite vrijednost");
@@ -78,9 +73,7 @@ public class MainActivity extends AppCompatActivity {
             lastEntry = entry;
 
             //Hides keyboard on button click
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(btnCalculate.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-
+            hideKeyboard();
         });
 
 
@@ -94,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(btnCalculate.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        imm.hideSoftInputFromWindow(findViewById(R.id.btnCalculate).getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
 
